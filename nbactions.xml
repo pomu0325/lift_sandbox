@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-scala:cc</actionName>
+            <displayName>scala:cc</displayName>
+            <goals>
+                <goal>scala:cc</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>debug</actionName>
+            <goals>
+                <goal>jetty:run</goal>
+            </goals>
+        </action>
+    </actions>

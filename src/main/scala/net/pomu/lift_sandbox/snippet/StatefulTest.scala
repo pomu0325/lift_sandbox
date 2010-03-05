@@ -1,0 +1,52 @@
+/*
+ * StatefulTest.scala
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package net.pomu.lift_sandbox.snippet
+
+import scala.xml._
+import net.liftweb.http._
+import net.liftweb.util._
+import Helpers._
+import S._
+
+class StatefulTest extends StatefulSnippet {
+	val dispatch: DispatchIt = {
+		case "liftForm" => liftForm _
+		case "myForm" => myForm _
+		case "mySayHello" => mySayHello _
+	}
+
+	def liftForm(in: NodeSeq): NodeSeq = {
+		var name = ""
+		def sayHello() = {
+			S.notice("Hello, " + name + ". I'm " + this)
+			redirectTo("/liftSayHello")
+		}
+		bind("e", in,
+			"instance" -> Text("I'm " + this),
+			"input" -> SHtml.text(name, i => name = i),
+			"submit" -> SHtml.submit("say hello", sayHello)
+		)
+	}
+
+	def myForm(in: NodeSeq): NodeSeq = {
+		S.fmapFunc((a: List[String]) => {registerThisSnippet()})(key => {
+			bind("e", in,
+				"key" -> <input type="hidden" name={key} value="_"/>,
+				"instance" -> Text("I'm " + this),
+				"input" -> <input type="text" name="name"/>,
+				"submit" -> <input type="submit" value="say hello"/>
+			)
+		})
+	}
+
+	def mySayHello(in: NodeSeq): NodeSeq = {
+		val name = S.param("name") openOr ""
+		S.notice("Hello, " + name + ". I'm " + this)
+		in
+	}
+}
