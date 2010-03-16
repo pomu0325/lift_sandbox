@@ -21,8 +21,10 @@ class StatefulTest extends StatefulSnippet {
 	}
 
 	def liftForm(in: NodeSeq): NodeSeq = {
+		println(this)
 		var name = ""
 		def sayHello() = {
+			println(this)
 			S.notice("Hello, " + name + ". I'm " + this)
 			redirectTo("/liftSayHello")
 		}
@@ -34,6 +36,7 @@ class StatefulTest extends StatefulSnippet {
 	}
 
 	def myForm(in: NodeSeq): NodeSeq = {
+		println(this)
 		S.fmapFunc((a: List[String]) => {registerThisSnippet()})(key => {
 			bind("e", in,
 				"key" -> <input type="hidden" name={key} value="_"/>,
@@ -45,6 +48,7 @@ class StatefulTest extends StatefulSnippet {
 	}
 
 	def mySayHello(in: NodeSeq): NodeSeq = {
+		println(this)
 		val name = S.param("name") openOr ""
 		S.notice("Hello, " + name + ". I'm " + this)
 		in
